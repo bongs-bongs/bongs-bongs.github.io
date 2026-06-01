@@ -31,6 +31,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 .hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.15em;color:var(--sky);text-transform:uppercase;margin-bottom:1.2rem;}
 .hero-name{font-family:'Noto Sans KR',sans-serif;font-size:clamp(2.8rem,5vw,4rem);font-weight:700;line-height:1.1;color:var(--text);margin-bottom:0.5rem;}
 .hero-name-en{font-size:1.1rem;font-weight:400;color:var(--text3);margin-bottom:2rem;}
+.hero-tagline{font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;font-weight:500;color:var(--text2);margin-top:1rem;padding-left:2px;}
 .role-list{display:flex;flex-direction:column;gap:10px;margin-bottom:2.5rem;}
 .role-item{display:flex;align-items:center;gap:14px;}
 .role-dot{width:8px;height:8px;border-radius:50%;background:var(--sky);flex-shrink:0;}
@@ -180,6 +181,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         <div class="role-item"><div class="role-dot" style="background:#3FB950"></div><span class="role-text">자율주행 개발자</span><span class="role-sub">ROS2 · Nav2 · LiDAR</span></div>
         <div class="role-item"><div class="role-dot" style="background:#A371F7"></div><span class="role-text">게임 개발자</span><span class="role-sub">Unity · Unreal 5</span></div>
       </div>
+      <p class="hero-tagline">모든 문제를 <strong style="font-size:1.08em;color:var(--sky-dark);">퀘스트</strong>로 바꾸는 개발자</p>
       <div class="hero-divider"></div>
       <div class="stats-row">
         <div class="stat"><span class="stat-num">6</span><span class="stat-label">PROJECTS</span></div>
@@ -236,52 +238,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         </div>
       </div>
     </div>
-    <div class="tl-zigzag">
-      <div class="tz-item tz-left">
-        <div class="tz-card"><span class="tz-date">2017. 03</span><p class="tz-title">인천대학교 입학</p><p class="tz-desc">전기공학과 입학</p><span class="tl-tag tl-tag-sky">학업</span></div>
-        <div class="tz-dot tz-dot-sky"></div>
-      </div>
-      <div class="tz-item tz-right">
-        <div class="tz-dot tz-dot-sky"></div>
-        <div class="tz-card"><span class="tz-date">2023. 07</span><p class="tz-title">IPCL 학부연구생</p><p class="tz-desc">인천대학교 전력변환연구실<br>300kW 급속충전기 제어 로직 연구</p><span class="tl-tag tl-tag-sky">연구</span></div>
-      </div>
-      <div class="tz-item tz-left">
-        <div class="tz-card tz-card-gold"><span class="tz-date">2023. 11</span><p class="tz-title">KSMPE 학술대회 발표</p><p class="tz-desc">OFF-Board Charger 모듈 제어 로직<br><b>혁신상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
-        <div class="tz-dot tz-dot-gold"></div>
-      </div>
-      <div class="tz-item tz-right">
-        <div class="tz-dot tz-dot-gold"></div>
-        <div class="tz-card tz-card-gold"><span class="tz-date">2024. 08</span><p class="tz-title">LIMO 자율주행 대상</p><p class="tz-desc">교내 <b>대상 🥇</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
-      </div>
-      <div class="tz-item tz-left">
-        <div class="tz-card tz-card-gold"><span class="tz-date">2024. 12</span><p class="tz-title">넥스트 모빌리티 엑스포</p><p class="tz-desc">자율주행 SW 경진대회 <b>특별상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
-        <div class="tz-dot tz-dot-gold"></div>
-      </div>
-      <div class="tz-item tz-right">
-        <div class="tz-dot tz-dot-green"></div>
-        <div class="tz-card tz-card-green"><span class="tz-date">2025. 07</span><p class="tz-title">SSAFY 14기 입과</p><p class="tz-desc">삼성청년SW·AI아카데미 임베디드 트랙</p><span class="tl-tag tl-tag-green">● 수료</span></div>
-      </div>
-      <div class="tz-item tz-left">
-        <div class="tz-card"><span class="tz-date">2025. 08</span><p class="tz-title">인천대학교 졸업</p><p class="tz-desc">전기공학과 학사 졸업</p><span class="tl-tag tl-tag-sky">학업</span></div>
-        <div class="tz-dot tz-dot-sky"></div>
-      </div>
-      <div class="tz-item tz-right">
-        <div class="tz-dot tz-dot-sky"></div>
-        <div class="tz-card"><span class="tz-date">2025. 12</span><p class="tz-title">군집주행 Platooning</p><p class="tz-desc">ESP32 CAN↔MQTT 게이트웨이<br>TFLite 앞차 인식 모델</p><span class="tl-tag tl-tag-sky">SSAFY 프로젝트</span></div>
-      </div>
-      <div class="tz-item tz-left">
-        <div class="tz-card tz-card-gold"><span class="tz-date">2026. 01~02</span><p class="tz-title">No-ill 독거노인 케어 로봇</p><p class="tz-desc">Nav2 자율주행 + YOLO 낙상감지<br><b>SSAFY 우수상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
-        <div class="tz-dot tz-dot-gold"></div>
-      </div>
-      <div class="tz-item tz-right">
-        <div class="tz-dot tz-dot-sky"></div>
-        <div class="tz-card"><span class="tz-date">2026. 02~04</span><p class="tz-title">프로젝트 마네퀸</p><p class="tz-desc">Unity 4인 비대칭 호러 게임<br>Photon Fusion 2</p><span class="tl-tag tl-tag-sky">SSAFY 프로젝트</span></div>
-      </div>
-      <div class="tz-item tz-left">
-        <div class="tz-card tz-card-gold"><span class="tz-date">2026. 04~06</span><p class="tz-title">인형뽑기 가게 시뮬레이터</p><p class="tz-desc">UE5.5 / C++20 Steam 출시<br><b>SSAFY 우수상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
-        <div class="tz-dot tz-dot-gold tz-dot-pulse"></div>
-      </div>
-    </div>
+
     <div class="info-skills">
       <p class="section-eyebrow" style="margin-bottom:1.5rem">Tech Stack</p>
 
@@ -326,6 +283,53 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <div class="skill-group-header"><span class="skill-group-icon">🎮</span><span class="skill-group-name" style="color:#7C4DCC">게임 개발</span></div>
           <div class="skill-pills"><span class="spill spill-purple">Unity 2022</span><span class="spill spill-purple">Unreal 5.5</span><span class="spill spill-purple">C#</span><span class="spill spill-purple">C++20</span><span class="spill spill-purple">Photon Fusion 2</span><span class="spill spill-purple">Steam</span></div>
         </div>
+      </div>
+    </div>
+
+    <div class="tl-zigzag">
+      <div class="tz-item tz-left">
+        <div class="tz-card"><span class="tz-date">2017. 03</span><p class="tz-title">인천대학교 입학</p><p class="tz-desc">전기공학과 입학</p><span class="tl-tag tl-tag-sky">학업</span></div>
+        <div class="tz-dot tz-dot-sky"></div>
+      </div>
+      <div class="tz-item tz-right">
+        <div class="tz-dot tz-dot-sky"></div>
+        <div class="tz-card"><span class="tz-date">2023. 07</span><p class="tz-title">IPCL 학부연구생</p><p class="tz-desc">인천대학교 전력변환연구실<br>300kW 급속충전기 제어 로직 연구</p><span class="tl-tag tl-tag-sky">연구</span></div>
+      </div>
+      <div class="tz-item tz-left">
+        <div class="tz-card tz-card-gold"><span class="tz-date">2023. 11</span><p class="tz-title">KSMPE 학술대회 발표</p><p class="tz-desc">OFF-Board Charger 모듈 제어 로직<br><b>혁신상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
+        <div class="tz-dot tz-dot-gold"></div>
+      </div>
+      <div class="tz-item tz-right">
+        <div class="tz-dot tz-dot-gold"></div>
+        <div class="tz-card tz-card-gold"><span class="tz-date">2024. 08</span><p class="tz-title">LIMO 자율주행 대상</p><p class="tz-desc">교내 <b>대상 🥇</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
+      </div>
+      <div class="tz-item tz-left">
+        <div class="tz-card tz-card-gold"><span class="tz-date">2024. 12</span><p class="tz-title">넥스트 모빌리티 엑스포</p><p class="tz-desc">자율주행 SW 경진대회 <b>특별상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
+        <div class="tz-dot tz-dot-gold"></div>
+      </div>
+      <div class="tz-item tz-right">
+        <div class="tz-dot tz-dot-green"></div>
+        <div class="tz-card tz-card-green"><span class="tz-date">2025. 07</span><p class="tz-title">SSAFY 14기 입과</p><p class="tz-desc">삼성청년SW·AI아카데미 임베디드 트랙</p><span class="tl-tag tl-tag-green">● 수료</span></div>
+      </div>
+      <div class="tz-item tz-left">
+        <div class="tz-card"><span class="tz-date">2025. 08</span><p class="tz-title">인천대학교 졸업</p><p class="tz-desc">전기공학과 학사 졸업</p><span class="tl-tag tl-tag-sky">학업</span></div>
+        <div class="tz-dot tz-dot-sky"></div>
+      </div>
+      <div class="tz-item tz-right">
+        <div class="tz-dot tz-dot-sky"></div>
+        <div class="tz-card"><span class="tz-date">2025. 12</span><p class="tz-title">군집주행 Platooning</p><p class="tz-desc">ESP32 CAN↔MQTT 게이트웨이<br>TFLite 앞차 인식 모델</p><span class="tl-tag tl-tag-sky">SSAFY 프로젝트</span></div>
+      </div>
+      <div class="tz-item tz-left">
+        <div class="tz-card tz-card-gold"><span class="tz-date">2026. 01~02</span><p class="tz-title">No-ill 독거노인 케어 로봇</p><p class="tz-desc">Nav2 자율주행 + YOLO 낙상감지<br><b>SSAFY 우수상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
+        <div class="tz-dot tz-dot-gold"></div>
+      </div>
+      <div class="tz-item tz-right">
+        <div class="tz-dot tz-dot-sky"></div>
+        <div class="tz-card"><span class="tz-date">2026. 02~04</span><p class="tz-title">프로젝트 마네퀸</p><p class="tz-desc">Unity 4인 비대칭 호러 게임<br>Photon Fusion 2</p><span class="tl-tag tl-tag-sky">SSAFY 프로젝트</span></div>
+      </div>
+      <div class="tz-item tz-left">
+        <div class="tz-card tz-card-gold"><span class="tz-date">2026. 04~06</span><p class="tz-title">인형뽑기 가게 시뮬레이터</p><p class="tz-desc">UE5.5 / C++20 Steam 출시<br><b>SSAFY 우수상</b></p><span class="tl-tag tl-tag-gold">🏆 수상</span></div>
+        <div class="tz-dot tz-dot-gold tz-dot-pulse"></div>
       </div>
     </div>
   </div>
@@ -410,6 +414,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         <div class="proj-result">
           <span class="proj-result-badge">🏆 교내 대상 · 인천대 미래자동차융합혁신센터</span>
           <span class="proj-result-badge">🏆 특별상 · 넥스트 모빌리티 엑스포</span>
+          <button onclick="openDetail('details/limo.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🚗 인식·제어 파이프라인 기술 상세 →</button>
         </div>
 
         <div class="proj-tags">
@@ -458,6 +463,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         <div class="proj-section">
           <p class="proj-section-label">배운 것</p>
           <p class="proj-text">1회 영상 촬영 성공했지만 안정적 재현은 못 했다. WiFi MQTT 지연 + STM32 blocking 구조가 복합적으로 작용한 것으로 사후 분석했다. 분산 시스템의 불안정성은 단일 원인이 아니라 여러 레이어가 동시에 터지는 경우가 많다는 걸 직접 겪었다.</p>
+        </div>
+
+        <div class="proj-result">
+          <button onclick="openDetail('details/platooning.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🔧 ESP32 통신 게이트웨이 기술 상세 →</button>
         </div>
 
         <div class="proj-tags">
@@ -511,6 +520,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         <div class="proj-result">
           <span class="proj-result-badge">🏆 우수상 · 삼성전자 SSAFY</span>
           <span class="proj-result-badge">📋 삼성 임원 평가 발표 진행</span>
+          <button onclick="openDetail('details/noill.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🤖 로봇 제어 시스템 기술 상세 →</button>
         </div>
 
         <div class="proj-tags">
@@ -558,6 +568,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         <div class="proj-section">
           <p class="proj-section-label">어떤 걸 구현했나</p>
           <p class="proj-text">퇴마사 클라이언트 전체를 담당했다. 카메라 벽 뚫림 방지(SphereCast), 애니메이션-타이머 불일치 해결(Animation Event 기반 이동잠금), 입력 권한 충돌 차단(HasInputAuthority 가드), Normal → Injured → Downed → Mannequin → Dead 생존 상태머신, 8종 랜덤 캐릭터 모델 네트워크 동기화까지 구현했다.</p>
+        </div>
+
+        <div class="proj-result">
+          <button onclick="openDetail('details/mannequin-exorcist.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">👻 퇴마사 클라이언트 기술 상세 →</button>
         </div>
 
         <div class="proj-tags">
@@ -608,6 +622,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
         <div class="proj-result">
           <span class="proj-result-badge">🏆 우수상 · 삼성전자 SSAFY</span>
           <span class="proj-result-badge proj-result-sub">🎮 Steam 출시 · Win64</span>
+          <button onclick="openDetail('details/claw-machine-npc.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🤖 NPC AI 시스템 기술 상세 →</button>
         </div>
 
         <div class="proj-tags">
@@ -715,8 +730,19 @@ function showPage(name, linkEl) {
   document.getElementById('page-' + name).classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   if (linkEl) linkEl.classList.add('active');
+  else {
+    const match = document.querySelector(`.nav-links a[onclick*="'${name}'"]`);
+    if (match) match.classList.add('active');
+  }
   window.scrollTo(0, 0);
+  history.replaceState(null, '', '#' + name);
 }
+
+// 페이지 로드 시 해시 보고 해당 섹션으로 이동 (← 뒤로가기 지원)
+document.addEventListener('DOMContentLoaded', () => {
+  const hash = location.hash.replace('#', '');
+  if (hash && document.getElementById('page-' + hash)) showPage(hash);
+});
 </script>
 
 <!-- Image Modal -->
@@ -724,11 +750,67 @@ function showPage(name, linkEl) {
   <img id="img-modal-img" src="" style="max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.5);">
   <span style="position:absolute;top:20px;right:28px;color:white;font-size:28px;cursor:pointer;" onclick="closeModal()">✕</span>
 </div>
+
+<!-- Detail Modal -->
+<div id="detail-modal">
+  <div id="detail-modal-backdrop" onclick="closeDetail()"></div>
+  <div id="detail-modal-sheet">
+    <button id="detail-close" onclick="closeDetail()">✕</button>
+    <iframe id="detail-iframe" src="" frameborder="0"></iframe>
+  </div>
+</div>
+
 <style>
 #img-modal { display:none !important; }
 #img-modal.open { display:flex !important; }
+
+#detail-modal { display:none; position:fixed; inset:0; z-index:8888; }
+#detail-modal.open { display:block; }
+#detail-modal-backdrop {
+  position:absolute; inset:0;
+  background:rgba(14,35,48,0.55);
+  backdrop-filter:blur(4px);
+  animation:fadeIn 0.2s ease;
+}
+#detail-modal-sheet {
+  position:absolute;
+  top:3vh; right:0; bottom:0; left:50%;
+  background:#F4FAFF;
+  border-radius:16px 0 0 0;
+  box-shadow:-8px 0 40px rgba(14,35,48,0.2);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  animation:slideIn 0.28s cubic-bezier(0.22,1,0.36,1);
+}
+#detail-iframe { flex:1; width:100%; border:none; }
+#detail-close {
+  position:absolute; top:14px; right:18px; z-index:10;
+  background:#E8F5FC; border:1px solid #D6EEF8;
+  border-radius:50%; width:34px; height:34px;
+  font-size:16px; cursor:pointer; color:#1A2E3B;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s;
+}
+#detail-close:hover { background:#D6EEF8; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes slideIn { from{transform:translateX(60px);opacity:0} to{transform:translateX(0);opacity:1} }
+@media(max-width:700px){
+  #detail-modal-sheet { left:0; top:6vh; border-radius:16px 16px 0 0; }
+}
 </style>
 <script>
+function openDetail(url) {
+  document.getElementById('detail-iframe').src = url;
+  document.getElementById('detail-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDetail() {
+  document.getElementById('detail-modal').classList.remove('open');
+  document.getElementById('detail-iframe').src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
 function openModal(src) {
   document.getElementById('img-modal-img').src = src;
   document.getElementById('img-modal').classList.add('open');

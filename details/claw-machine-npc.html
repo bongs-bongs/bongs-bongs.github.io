@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인형뽑기 시뮬레이터 — NPC AI 시스템 | 최두봉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#56B4E9;--sky-dark:#1A7AB5;--sky-mid:#A8D8F0;--sky-pale:#E8F5FC;--sky-bg:#F4FAFF;--text:#1A2E3B;--text2:#4A6572;--text3:#8AAAB8;--white:#FFFFFF;--border:#D6EEF8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans','Noto Sans KR',sans-serif;background:var(--sky-bg);color:var(--text);line-height:1.7;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 100px;}
+
+.topbar{position:sticky;top:0;z-index:10;background:rgba(244,250,255,0.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-tag{font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--sky-dark);text-decoration:none;font-size:13px;font-weight:600;}
+
+.dd-hero{padding:54px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+.dd-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.12em;color:var(--sky);text-transform:uppercase;margin-bottom:14px;}
+.dd-title{font-family:'Noto Sans KR';font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:14px;}
+.dd-sub{font-size:1.05rem;color:var(--text2);max-width:62ch;}
+.dd-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);}
+.chip-role{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark);}
+
+.role-banner{background:linear-gradient(135deg,var(--sky-pale),var(--white));border:1px solid var(--border);border-left:4px solid var(--sky);border-radius:12px;padding:18px 22px;margin-bottom:44px;}
+.role-banner b{color:var(--sky-dark);}
+
+section{margin-bottom:52px;}
+.sec-num{font-family:'DM Sans';font-size:12px;font-weight:700;color:var(--sky);letter-spacing:0.1em;}
+h2.sec-title{font-family:'Noto Sans KR';font-size:1.5rem;font-weight:700;margin:6px 0 8px;line-height:1.3;}
+h3.sub{font-size:1rem;font-weight:700;margin:24px 0 8px;color:var(--text);}
+p{margin-bottom:14px;color:var(--text2);}
+p strong,li strong{color:var(--text);font-weight:600;}
+ul{margin:0 0 16px 20px;color:var(--text2);}
+li{margin-bottom:7px;}
+
+.ps{display:grid;gap:14px;margin:18px 0;}
+.ps-box{border-radius:12px;padding:16px 18px;border:1px solid;}
+.ps-problem{background:#FFF6F4;border-color:#F6D5CC;}
+.ps-solution{background:#F4FFF7;border-color:#BDEBC7;}
+.ps-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:block;}
+.ps-problem .ps-label{color:#C0492B;}
+.ps-solution .ps-label{color:#1A7A2A;}
+.ps-box p{margin:0;color:var(--text);}
+
+.code{background:#0E2330;border-radius:12px;margin:16px 0 22px;overflow:hidden;border:1px solid #1c3a4d;box-shadow:0 8px 24px rgba(14,35,48,0.18);}
+.code-bar{display:flex;align-items:center;gap:8px;padding:9px 16px;background:#0a1a24;border-bottom:1px solid #1c3a4d;}
+.code-dot{width:11px;height:11px;border-radius:50%;}
+.code-file{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#7FB3CE;}
+.code pre{margin:0;padding:16px 18px;overflow-x:auto;}
+.code code{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;color:#D6E9F3;white-space:pre;}
+.cm{color:#5d7e8f;font-style:italic;}
+.kw{color:#7FD3F5;}
+.st{color:#9BE0A8;}
+.fn{color:#FFD580;}
+.nu{color:#F8A67A;}
+
+.arch{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;margin:18px 0 24px;overflow-x:auto;}
+.arch pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.65;color:var(--text2);white-space:pre;}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:13.5px;}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);}
+th{background:var(--sky-pale);color:var(--sky-dark);font-weight:700;font-size:12px;}
+td code{font-family:'JetBrains Mono',monospace;background:var(--sky-pale);padding:2px 6px;border-radius:5px;color:var(--sky-dark);font-size:12px;}
+
+.takeaways{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+.takeaways h2.sec-title{margin-top:0;}
+.foot{margin-top:50px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text3);text-align:center;}
+.foot a{color:var(--sky-dark);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-tag">Project 06 · Deep Dive</span>
+    <a class="back-link" href="../index_test.html#projects" target="_parent">↗ 새 탭으로 열기</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="dd-hero">
+    <p class="dd-eyebrow">Unreal Engine 5 · C++ · AI · BehaviorTree</p>
+    <h1 class="dd-title">인형뽑기 시뮬레이터<br>— NPC AI 시스템</h1>
+    <p class="dd-sub">손님이 가게에 들어와 기계를 고르고, 시도하고, 실망하거나 기뻐하고, 나가는 — 그 행동 하나하나를 <strong>BehaviorTree 기반으로 데이터 주도로 설계</strong>했다. NPC가 늘어날수록 프레임이 버텨야 하고, 행동이 다양해야 몰입감이 생긴다는 두 가지 요구를 어떻게 풀었는지가 핵심.</p>
+    <div class="dd-meta">
+      <span class="chip chip-role">My Part · NPC AI 전체</span>
+      <span class="chip">UE5 BehaviorTree</span>
+      <span class="chip">C++20</span>
+      <span class="chip">Blackboard</span>
+      <span class="chip">DataTable 기반 가중치</span>
+    </div>
+  </div>
+
+  <div class="role-banner">
+    <p style="margin:0;">프로젝트는 7인 팀이며, 나는 <b>NPC AI 시스템 전체 (생성·행동·BT 설계)</b>를 담당했다. 손님이 가게에 들어와 기계를 이용하고 퇴장하기까지의 모든 AI 흐름, 진상 NPC(박스 도둑·길막) 전환, 동적 생성 스케일링까지 포함한다.</p>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">전체 구조 — BehaviorTree 계층</h2>
+    <p>NPC 하나가 가게에 들어오는 순간부터 나가기까지, <strong>18개의 BT Task · Service · Decorator</strong>가 순서대로 실행된다. 각 Task는 단일 책임 원칙을 지켜 테스트·재사용이 쉽게 설계했다.</p>
+    <div class="arch"><pre>  [ SpawnManager → NPC 생성 ]
+          │
+          ▼
+  BT_Guest ─────────────────────────────────────────
+  │
+  ├─ RollShopEntry     매장 진입 여부 확률 판정
+  ├─ BeginNPCSession   Blackboard 초기값 세팅
+  ├─ FindWanderPoint   빈 기계 탐색 (MachineCache 활용)
+  ├─ RotateToTarget    기계 앞에서 방향 조정
+  ├─ DecideStayOrLeave MachineStayChance / ShopStayChance 계산
+  ├─ PlayAnim          뽑기 시퀀스 애니메이션
+  ├─ LogVisitCount     SuccessCount, FailStreak 갱신
+  ├─ [bShouldExit?] ──▶ FindExit → DestroySelf
+  │
+  └─ [흑화 조건 충족] ──▶ SwapBehaviorTree(BT_Jinsang_*)
+                          같은 BlackboardAsset 재사용 → 상태 유지</pre></div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">동적 생성 — 기계 수에 반응하는 스폰</h2>
+    <p>플레이어가 기계를 추가하면 NPC가 더 자주, 더 많이 온다. 하드코드된 값이 아니라 <strong>현재 기계 수를 실시간으로 읽어 SpawnInterval과 MaxConcurrent를 계산</strong>하게 했다.</p>
+    <div class="ps">
+      <div class="ps-box ps-problem"><span class="ps-label">문제</span><p>기계가 1대일 때와 10대일 때 같은 속도로 NPC가 스폰되면, 기계 추가가 게임플레이에 의미 없음.</p></div>
+      <div class="ps-box ps-solution"><span class="ps-label">해결</span><p>기계 1대당 <strong>SpawnInterval 차감, MaxConcurrent 증가</strong>. 기계 추가/제거 시 타이머 즉시 재시작.</p></div>
+    </div>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">CMSGuestSpawnManager.h</span></div>
+<pre><code><span class="cm">// 기계 1대 추가 → 스폰이 빨라지고 동시 허용 NPC 수 증가</span>
+UPROPERTY(EditAnywhere, Category = <span class="st">"Spawn|Config"</span>)
+<span class="kw">float</span> SpawnIntervalReductionPerMachine = <span class="nu">0.1f</span>;
+
+UPROPERTY(EditAnywhere, Category = <span class="st">"Spawn|Config"</span>)
+<span class="kw">float</span> MinSpawnInterval = <span class="nu">2.0f</span>;          <span class="cm">// 하한선 — 무한 빨라짐 방지</span>
+
+UPROPERTY(EditAnywhere, Category = <span class="st">"Spawn|Config"</span>)
+<span class="kw">int32</span> MaxConcurrentBonusPerMachine = <span class="nu">1</span>;  <span class="cm">// 기계 1대당 +1명</span>
+
+<span class="cm">// 실제 계산: SpawnInterval - MachineCount * Reduction, MinSpawnInterval로 clamp</span>
+<span class="kw">float</span> <span class="fn">GetEffectiveSpawnInterval</span>() <span class="kw">const</span>;</code></pre>
+    </div>
+    <p>카테고리(손님/통행인/진상)별로도 동시 허용 수를 별도 추적한다. <strong>enum 항목을 추가하면 컴파일 타임에 즉시 에러</strong>가 나서 카운터 배열 동기화를 강제했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">CMSGuestSpawnManager.h</span></div>
+<pre><code><span class="kw">static constexpr int32</span> NumNpcCategories = <span class="kw">static_cast</span>&lt;<span class="kw">int32</span>&gt;(ECMSNpcCategory::Count);
+<span class="kw">int32</span> ActiveCategoryCounts[NumNpcCategories] = {};
+
+<span class="cm">// enum에 항목 추가 시 switch 동기화를 컴파일 에러로 강제</span>
+static_assert(NumNpcCategories == <span class="nu">3</span>,
+    <span class="st">"ECMSNpcCategory 항목 추가 시 CategoryToIndex switch 도 갱신하고 본 assert 값 동기화하세요."</span>);</code></pre>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">BT Swap — 같은 상태로 진상 전환</h2>
+    <p>일반 손님이 조건을 만족하면 진상(Villain)으로 <strong>전환</strong>된다. 새 NPC를 스폰하는 대신 <strong>같은 BlackboardAsset을 유지한 채로 BehaviorTree만 교체</strong>해서, FailStreak·CurrentMachine 같은 상태가 그대로 이어진다.</p>
+    <div class="ps">
+      <div class="ps-box ps-problem"><span class="ps-label">문제</span><p>진상 전환 시 기존 NPC를 지우고 새로 스폰하면 상태가 초기화되고, 전환 순간 빈틈이 생겨 어색함.</p></div>
+      <div class="ps-box ps-solution"><span class="ps-label">해결</span><p>BlackboardAsset은 그대로 두고 <code>SwapBehaviorTree(BT_Jinsang_*)</code>만 호출. BB 값이 유지된 채로 새 행동 트리가 실행됨.</p></div>
+    </div>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">CMSGuestAIController.h</span></div>
+<pre><code><span class="cm">// 같은 BlackboardAsset 재사용 → BB 상태(FailStreak, CurrentMachine 등) 유지.</span>
+UFUNCTION(BlueprintCallable, Category = <span class="st">"AI"</span>)
+<span class="kw">bool</span> <span class="fn">SwapBehaviorTree</span>(UBehaviorTree* NewBT);
+
+<span class="cm">// 흑화(진상 전환) 시 BB 키 set + SwapBehaviorTree 호출</span>
+<span class="cm">// inline const FName bIsVillain("bIsVillain"); ← BB 키 SSOT</span></code></pre>
+    </div>
+    <p>Blackboard 키는 별도 네임스페이스(<code>CMSGuestBB</code>)에 <strong>단일 출처(SSOT)</strong>로 정의해서, 오타로 인한 런타임 에러를 차단했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">CMSGuestBlackboardKeys.h</span></div>
+<pre><code><span class="kw">namespace</span> CMSGuestBB {
+    <span class="kw">inline const</span> FName <span class="fn">FailStreak</span>(TEXT(<span class="st">"FailStreak"</span>));     <span class="cm">// 연속 실패 횟수</span>
+    <span class="kw">inline const</span> FName <span class="fn">bIsVillain</span>(TEXT(<span class="st">"bIsVillain"</span>));     <span class="cm">// 흑화 여부</span>
+    <span class="kw">inline const</span> FName <span class="fn">bWaitingForBlocker</span>(TEXT(<span class="st">"bWaitingForBlocker"</span>)); <span class="cm">// 길막 대기</span>
+    <span class="kw">inline const</span> FName <span class="fn">CurrentMachine</span>(TEXT(<span class="st">"CurrentMachine"</span>)); <span class="cm">// 점유 중인 기계</span>
+    <span class="cm">// ... 총 20개 키</span>
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">MachineCache — BT 매 프레임 탐색 비용 제거</h2>
+    <p>NPC가 빈 기계를 찾을 때마다 <code>GetAllActorsOfClass</code>를 호출하면, NPC가 10명이 동시에 기계를 탐색할 때 매 프레임마다 월드 전체를 순회한다. <strong>정적 캐시 + 월드 교체 시 자동 무효화</strong>로 이 비용을 제거했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">CMSGuestMachineCache.h</span></div>
+<pre><code><span class="cm">// 매 BT 실행마다 GetAllActorsOfClass 호출 회피용 머신 캐시.</span>
+<span class="cm">// 멀티-PIE 시 월드 교대마다 invalidate. 단일 플레이/Shipping 무관.</span>
+<span class="kw">class</span> FCMSGuestMachineCache {
+<span class="kw">public</span>:
+    <span class="kw">static const</span> TArray&lt;TWeakObjectPtr&lt;ACMSClawMachineBase&gt;&gt;&amp;
+        <span class="fn">GetMachines</span>(UWorld* World);  <span class="cm">// World 다르면 자동 재빌드</span>
+
+    <span class="kw">static void</span> <span class="fn">InvalidateCache</span>();   <span class="cm">// 기계 추가/제거 시 호출</span>
+<span class="kw">private</span>:
+    <span class="kw">static</span> TArray&lt;TWeakObjectPtr&lt;ACMSClawMachineBase&gt;&gt; CachedMachines;
+    <span class="kw">static</span> TWeakObjectPtr&lt;UWorld&gt; CachedWorld;
+};</code></pre>
+    </div>
+    <p><code>TWeakObjectPtr</code>를 써서 기계가 월드에서 제거되면 <strong>자동으로 포인터가 무효화</strong>되고, 다음 탐색 시 재빌드된다. 호출자가 유효성을 확인하는 책임 제도를 명확히 해서 순환참조도 차단했다.</p>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">Settlement 진입 → 전체 NPC 자연 퇴장</h2>
+    <p>영업 시간이 끝나면 가게 안의 모든 NPC가 자연스럽게 나가야 한다. <strong>새 BT로 교체하거나 강제 Destroy하지 않고</strong>, BB 키 하나(<code>bShouldExit=true</code>)를 set해서 각 NPC의 BT가 다음 사이클에 Exit 분기로 자연 진입하게 했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">CMSGuestSpawnManager.h</span></div>
+<pre><code><span class="cm">// Settlement 진입 시 BT Exit 분기로 보내 자연 퇴장 트리거.</span>
+<span class="kw">void</span> <span class="fn">ForceAllGuestsLeave</span>();
+
+<span class="cm">// BB: bShouldExit = true → BT 다음 사이클에 FindExit → DestroySelf</span>
+<span class="cm">// inline const FName bShouldExit("bShouldExit"); ← BB 키</span></code></pre>
+    </div>
+    <p>이 방식 덕분에 NPC가 멈추거나 텔레포트하는 현상 없이, <strong>현재 행동(뽑기 시퀀스)을 마친 뒤 출구로 이동해서 사라진다.</strong></p>
+  </section>
+
+  <!-- table -->
+  <section>
+    <span class="sec-num">06</span>
+    <h2 class="sec-title">BT Task 전체 목록</h2>
+    <table>
+      <tr><th>Task / Service</th><th>역할</th></tr>
+      <tr><td><code>BeginNPCSession</code></td><td>BB 초기값 세팅, 세션 시작 이벤트 발화</td></tr>
+      <tr><td><code>RollShopEntry</code></td><td>매장 진입 여부 확률 판정 (ShopEntryChance)</td></tr>
+      <tr><td><code>FindWanderPoint</code></td><td>MachineCache로 빈 기계 탐색, 없으면 NavMesh 임의 위치</td></tr>
+      <tr><td><code>RotateToTarget</code></td><td>기계 방향으로 부드럽게 회전</td></tr>
+      <tr><td><code>DecideStayOrLeave</code></td><td>GuestType 굴림 → MachineStayChance / ShopStayChance 계산</td></tr>
+      <tr><td><code>PlayAnim</code></td><td>뽑기 시퀀스 애니메이션 재생 (Montage)</td></tr>
+      <tr><td><code>LogVisitCount</code></td><td>SuccessCount, FailStreak 갱신</td></tr>
+      <tr><td><code>FindExit</code></td><td>출구 방향 좌표 계산, TargetLocation set</td></tr>
+      <tr><td><code>DestroySelf</code></td><td>NPC 안전 제거 (SpawnManager 정리 포함)</td></tr>
+      <tr><td><code>FindStolenBox</code></td><td>박스 도둑: 훔칠 배송 박스 탐색</td></tr>
+      <tr><td><code>PickupBox</code></td><td>박스 도둑: 박스 집기 인터랙션</td></tr>
+      <tr><td><code>StealBoxComplete</code></td><td>박스 도둑: 탈출 완료 처리</td></tr>
+      <tr><td><code>CheckStolenBoxValid</code> (Service)</td><td>탈취 목표 박스 유효성 매 틱 검사, 무효화 시 BB reset</td></tr>
+    </table>
+  </section>
+
+  <div class="takeaways">
+    <span class="sec-num">RESULT</span>
+    <h2 class="sec-title">결과 · 배운 점</h2>
+    <ul>
+      <li>게임 내 동시에 <strong>10+ NPC가 각자 독립적으로 BT를 실행</strong>하면서 자연스러운 가게 분위기 연출.</li>
+      <li><strong>코드 변경 없이 데이터(GuestTypeConfig)만 바꿔</strong> 손님 성격 조절 → 레벨 디자이너와의 협업 마찰 최소화.</li>
+      <li><code>static_assert</code>로 <strong>enum 추가 → 컴파일 타임 에러</strong> → 런타임에 조용히 터지는 버그를 사전 차단.</li>
+      <li>BT Swap 패턴으로 진상 전환 시 상태 연속성 보장 — <strong>"전환 순간 어색함"</strong> 완전 제거.</li>
+      <li>AI 시스템에서도 <strong>데이터 → 코드 분리</strong>가 유지보수에 얼마나 중요한지 실감.</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    Unreal Engine 5.5 · C++20 · BehaviorTree · DataTable
+  </div>
+
+</div>
+</body>
+</html>

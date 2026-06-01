@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>군집주행 Platooning — ESP32 통신 게이트웨이 | 최두봉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#56B4E9;--sky-dark:#1A7AB5;--sky-mid:#A8D8F0;--sky-pale:#E8F5FC;--sky-bg:#F4FAFF;--text:#1A2E3B;--text2:#4A6572;--text3:#8AAAB8;--white:#FFFFFF;--border:#D6EEF8;--gold:#D4A017;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans','Noto Sans KR',sans-serif;background:var(--sky-bg);color:var(--text);line-height:1.7;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 100px;}
+
+.topbar{position:sticky;top:0;z-index:10;background:rgba(244,250,255,0.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--sky-dark);text-decoration:none;font-size:13px;font-weight:600;}
+.back-link:hover{color:var(--text);}
+.topbar-tag{font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;}
+
+.dd-hero{padding:54px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+.dd-eyebrow{font-family:'DM Sans';font-size:12px;font-weight:700;letter-spacing:0.12em;color:var(--sky);text-transform:uppercase;margin-bottom:14px;}
+.dd-title{font-family:'Noto Sans KR';font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:14px;}
+.dd-sub{font-size:1.05rem;color:var(--text2);max-width:62ch;}
+.dd-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);}
+.chip-role{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark);}
+
+.role-banner{background:linear-gradient(135deg,var(--sky-pale),var(--white));border:1px solid var(--border);border-left:4px solid var(--sky);border-radius:12px;padding:18px 22px;margin-bottom:44px;}
+.role-banner b{color:var(--sky-dark);}
+
+section{margin-bottom:52px;}
+.sec-num{font-family:'DM Sans';font-size:12px;font-weight:700;color:var(--sky);letter-spacing:0.1em;}
+h2.sec-title{font-family:'Noto Sans KR';font-size:1.5rem;font-weight:700;margin:6px 0 8px;line-height:1.3;}
+p{margin-bottom:14px;color:var(--text2);}
+p strong, li strong{color:var(--text);font-weight:600;}
+ul{margin:0 0 16px 20px;color:var(--text2);}
+li{margin-bottom:7px;}
+
+.ps{display:grid;gap:14px;margin:18px 0;}
+.ps-box{border-radius:12px;padding:16px 18px;border:1px solid var(--border);}
+.ps-problem{background:#FFF6F4;border-color:#F6D5CC;}
+.ps-solution{background:#F4FFF7;border-color:#BDEBC7;}
+.ps-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:block;}
+.ps-problem .ps-label{color:#C0492B;}
+.ps-solution .ps-label{color:#1A7A2A;}
+.ps-box p{margin:0;color:var(--text);}
+
+.code{background:#0E2330;border-radius:12px;margin:16px 0 22px;overflow:hidden;border:1px solid #1c3a4d;box-shadow:0 8px 24px rgba(14,35,48,0.18);}
+.code-bar{display:flex;align-items:center;gap:8px;padding:9px 16px;background:#0a1a24;border-bottom:1px solid #1c3a4d;}
+.code-dot{width:11px;height:11px;border-radius:50%;}
+.code-file{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#7FB3CE;}
+.code pre{margin:0;padding:16px 18px;overflow-x:auto;}
+.code code{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;color:#D6E9F3;white-space:pre;}
+.cm{color:#5d7e8f;font-style:italic;}
+.kw{color:#7FD3F5;}
+.st{color:#9BE0A8;}
+.fn{color:#FFD580;}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:13.5px;}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);}
+th{background:var(--sky-pale);color:var(--sky-dark);font-weight:700;font-size:12px;}
+td code{font-family:'JetBrains Mono',monospace;background:var(--sky-pale);padding:2px 6px;border-radius:5px;color:var(--sky-dark);font-size:12.5px;}
+
+.arch{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;margin:18px 0 24px;overflow-x:auto;}
+.arch pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;color:var(--text2);white-space:pre;}
+
+.takeaways{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+.takeaways h2.sec-title{margin-top:0;}
+.foot{margin-top:50px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text3);text-align:center;}
+.foot a{color:var(--sky-dark);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-tag">Project 03 · Deep Dive</span>
+    <a class="back-link" href="../index_test.html#projects" target="_parent">↗ 새 탭으로 열기</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="dd-hero">
+    <p class="dd-eyebrow">Embedded · V2V · CAN · MQTT</p>
+    <h1 class="dd-title">군집주행 Platooning<br>— ESP32 통신 게이트웨이</h1>
+    <p class="dd-sub">RC카 3대가 앞차를 따라가는 V2V 군집주행 시스템에서, <strong>차량 간(MQTT) ↔ 차량 내(CAN) 통신을 잇는 ESP32 게이트웨이</strong>를 설계·구현했다. 실시간 제어에서 "반 박자 늦고 튀는" 문제를 통신 계층에서 어떻게 잡았는지가 핵심.</p>
+    <div class="dd-meta">
+      <span class="chip chip-role">My Part · ESP32 통신</span>
+      <span class="chip">ESP32 (Arduino)</span>
+      <span class="chip">MCP2515 CAN</span>
+      <span class="chip">MQTT (PubSubClient)</span>
+      <span class="chip">RPi4 · STM32 연동</span>
+    </div>
+  </div>
+
+  <div class="role-banner">
+    <p style="margin:0;">전체 시스템은 <b>RPi4(주행 제어·비전) + STM32(센서·모터) + ESP32(통신)</b> 3보드로 구성된다. 이 문서는 내가 맡은 <b>ESP32 통신 게이트웨이</b>를 다룬다 — 다른 차량의 상태를 받아 내 차의 RPi4에게 전달하고, 내 차의 센서/제어값을 다시 군집에 방송하는 중개기다.</p>
+  </div>
+
+  <section>
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">왜 통신을 ESP32에 분리했나</h2>
+    <p>처음엔 RPi4 하나가 MQTT(WiFi)와 CAN을 모두 처리하게 하려 했다. 하지만 RPi4는 비전 추론(TFLite)과 주행 제어를 동시에 돌려야 해서, 여기에 <strong>WiFi 송수신 + 실시간 CAN 폴링</strong>까지 얹으면 제어 주기가 흔들렸다.</p>
+    <div class="ps">
+      <div class="ps-box ps-problem"><span class="ps-label">문제</span><p>RPi4가 비전 + 제어 + 통신을 다 맡으니 실시간 CAN 수신이 밀리고, MQTT 지연이 제어 루프에 그대로 전파됨.</p></div>
+      <div class="ps-box ps-solution"><span class="ps-label">해결</span><p>통신을 <strong>ESP32 게이트웨이로 분리</strong>. ESP32가 MQTT↔CAN 브리지만 전담하고, RPi4는 CAN으로 정제된 "앞차 정보"만 받아 제어에 집중.</p></div>
+    </div>
+    <div class="arch"><pre>  [ 다른 차량들 ]
+        │  MQTT (WiFi, 브로커=로컬 PC)
+        ▼
+  ┌─────────────┐   CAN(0x100/0x110)   ┌──────────┐
+  │   ESP32     │ ───────────────────▶ │   RPi4   │  주행 제어 + 비전
+  │  (게이트웨이) │ ◀─────────────────── │          │
+  └─────────────┘   CAN(0x140 조향)     └──────────┘
+        ▲  CAN(0x120 속도 / 0x130 초음파)
+        │
+  ┌──────────┐
+  │  STM32   │  엔코더·초음파·모터
+  └──────────┘</pre></div>
+  </section>
+
+  <section>
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">차량 체인 구조 — 앞차만 구독</h2>
+    <p>리더(car1) → 팔로워(car2) → 팔로워(car3) 순서로, 각 차량은 <strong>자기 바로 앞차의 토픽만 구독</strong>한다. 같은 펌웨어를 쓰고 <code>MY_CAR_ID</code>/<code>FRONT_CAR_ID</code> 두 줄만 바꿔 각 차에 플래시했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">esp32_bridge.ino</span></div>
+<pre><code><span class="cm">/* car1: MY=1 FRONT=0 (앞차 없음, 구독 안 함)
+   car2: MY=2 FRONT=1
+   car3: MY=3 FRONT=2                         */</span>
+<span class="kw">#define</span> MY_CAR_ID     3
+<span class="kw">#define</span> FRONT_CAR_ID  2
+
+<span class="cm">// 내 차 상태는 publish, 앞차 토픽은 subscribe</span>
+topic_my_ctrl    = <span class="st">"car"</span> + String(MY_CAR_ID)    + <span class="st">"/ctrl_50ms"</span>;
+topic_front_ctrl = <span class="st">"car"</span> + String(FRONT_CAR_ID) + <span class="st">"/ctrl_50ms"</span>;
+<span class="kw">if</span> (FRONT_CAR_ID != 0) mqtt.subscribe(topic_front_ctrl.c_str());</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">"반 박자 늦고 튀는" 문제 — Last-value + Stale timeout</h2>
+    <p>MQTT는 브로커를 거치고 TCP 재전송까지 있어, 단순히 받은 순서대로 큐에 쌓아 처리하면 <strong>오래된 패킷이 뒤늦게 도착해 제어가 튀었다.</strong> 그래서 큐잉을 버리고, 수신 콜백은 <strong>"최신값만 덮어쓰고 수신 시각만 기록"</strong>하게 했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">esp32_bridge.ino — onMqtt()</span></div>
+<pre><code><span class="cm">// 앞차 정보 수신 → 저장만(덮어쓰기). 큐잉·블로킹 없음</span>
+<span class="kw">void</span> <span class="fn">onMqtt</span>(<span class="kw">char</span>* topic, <span class="kw">byte</span>* payload, <span class="kw">unsigned int</span> length) {
+  <span class="cm">// ... JSON 파싱 ...</span>
+  <span class="kw">if</span> (data[0] != (<span class="kw">byte</span>)FRONT_CAR_ID) <span class="kw">return</span>;   <span class="cm">// 앞차 ID만 통과</span>
+  <span class="kw">if</span> (is_front_ctrl) {
+    <span class="kw">for</span> (<span class="kw">int</span> i = 0; i &lt; 6; i++) front_ctrl_buf[i] = data[i];
+    front_ctrl_rx_ms = now;       <span class="cm">// 수신 시각 기록 (stale 판정용)</span>
+    front_ctrl_valid = <span class="kw">true</span>;
+  }
+}</code></pre>
+    </div>
+    <p>그리고 CAN으로 내보낼 때, <strong>너무 오래된 데이터(250ms↑)는 버리고</strong> 50ms 주기로만 포워딩한다. 이렇게 "항상 최신 한 개"만 흘려보내니 지연·튐이 사라졌다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">esp32_bridge.ino — forward_front_ctrl_if_ready()</span></div>
+<pre><code><span class="kw">if</span> (!front_ctrl_valid) <span class="kw">return</span>;
+<span class="kw">if</span> ((now - front_ctrl_rx_ms) &gt; FRONT_CTRL_STALE_MS)   <span class="kw">return</span>; <span class="cm">// 250ms↑ → 버림</span>
+<span class="kw">if</span> (now - last_front_ctrl_fwd_ms &lt; FRONT_CTRL_FWD_PERIOD_MS) <span class="kw">return</span>; <span class="cm">// 50ms 주기</span>
+
+CAN.sendMsgBuf(CAN_ID_TO_RPI_FRONT_CTRL, 0, 6, data);  <span class="cm">// → RPi4로 전달</span></code></pre>
+    </div>
+  </section>
+
+  <section>
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">네트워크·로그 폭주 막기 — 조건부 전송</h2>
+    <p>초음파 값을 매 주기 그대로 쏘면 CAN 버스와 로그가 의미 없는 데이터로 가득 찼다. 그래서 <strong>(1) 위험 거리거나, (2) 유의미하게 변했거나, (3) 1초간 조용했으면(하트비트)</strong> 일 때만 전송하도록 했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">esp32_bridge.ino — forward_front_ultra_if_ready()</span></div>
+<pre><code><span class="cm">// 위험거리면 무조건, 아니면 유의미 변화 OR 1초 하트비트일 때만</span>
+<span class="kw">bool</span> danger = (L &lt;= FRONT_ULTRA_DANGER_TH) || (R &lt;= FRONT_ULTRA_DANGER_TH);
+<span class="kw">bool</span> significant =
+    (<span class="fn">uabs16</span>(L, last_front_ultra_L) &gt;= FRONT_ULTRA_SEND_DIFF_TH) ||
+    (<span class="fn">uabs16</span>(R, last_front_ultra_R) &gt;= FRONT_ULTRA_SEND_DIFF_TH);
+<span class="kw">bool</span> force_hb = (now - last_front_ultra_send_ms) &gt;= FRONT_ULTRA_FORCE_MS;
+
+<span class="kw">if</span> (!(danger || significant || force_hb)) <span class="kw">return</span>;   <span class="cm">// 셋 다 아니면 생략</span>
+CAN.sendMsgBuf(CAN_ID_TO_RPI_FRONT_ULTRA, 0, dlc, data);</code></pre>
+    </div>
+    <p>덕분에 평상시 트래픽은 크게 줄면서도, <strong>위험 상황에서는 즉시·확실히</strong> 전달되는 안전 마진을 확보했다.</p>
+  </section>
+
+  <section>
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">ESP32에 맞춘 경량 JSON 파서</h2>
+    <p>MQTT 페이로드는 JSON인데, ArduinoJson은 ESP32에서 동적 할당 부담이 있었다. 어차피 필요한 필드는 <code>dlc</code>와 <code>data[]</code> 둘뿐이라, <strong>그 두 개만 긁어오는 미니 파서</strong>를 직접 짰다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">esp32_bridge.ino — json_get_array8()</span></div>
+<pre><code><span class="cm">// "data":[..] 배열만 직접 파싱 (동적 할당 없음)</span>
+<span class="kw">static bool</span> <span class="fn">json_get_array8</span>(<span class="kw">const</span> String&amp; s, <span class="kw">const char</span>* key,
+                            <span class="kw">byte</span> out[8], <span class="kw">int</span>&amp; out_n) {
+  String k = String(<span class="st">"\""</span>) + key + <span class="st">"\":["</span>;
+  <span class="kw">int</span> p = s.indexOf(k);
+  <span class="kw">if</span> (p &lt; 0) <span class="kw">return false</span>;
+  <span class="cm">// p부터 ']' 전까지 숫자만 추출해 out[]에 채움</span>
+  <span class="kw">return</span> (out_n &gt; 0);
+}</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <span class="sec-num">06</span>
+    <h2 class="sec-title">CAN ID 맵</h2>
+    <p>ESP32를 가운데 두고 STM32·RPi4가 주고받는 CAN 프레임을 ID로 분리했다. 모든 프레임의 첫 바이트는 차량 ID라 <strong>버스에서 내 차 것만 필터링</strong>한다.</p>
+    <table>
+      <tr><th>CAN ID</th><th>방향</th><th>내용</th></tr>
+      <tr><td><code>0x120</code></td><td>STM32 → ESP32</td><td>속도 (엔코더 기반)</td></tr>
+      <tr><td><code>0x130</code></td><td>STM32 → ESP32</td><td>초음파 L / R / 정면</td></tr>
+      <tr><td><code>0x140</code></td><td>RPi4 → ESP32</td><td>조향값</td></tr>
+      <tr><td><code>0x100</code></td><td>ESP32 → RPi4</td><td>앞차 속도 + 조향</td></tr>
+      <tr><td><code>0x110</code></td><td>ESP32 → RPi4</td><td>앞차 초음파</td></tr>
+    </table>
+  </section>
+
+  <div class="takeaways">
+    <span class="sec-num">RESULT</span>
+    <h2 class="sec-title">결과 · 배운 점</h2>
+    <ul>
+      <li>RC카 3대가 앞차를 일정 간격으로 따라가는 <strong>군집주행 데모 동작</strong>.</li>
+      <li>실시간성 요구 통신에서 <strong>"신뢰성(큐·재전송) ≠ 항상 좋음"</strong> — 늦게 오느니 버리는 last-value 설계가 제어 안정성에 더 유리하다는 걸 체감.</li>
+      <li>임베디드 통신은 <strong>대역폭·로그를 의식한 조건부 전송</strong>이 안정성과 디버깅 모두에 중요.</li>
+      <li>보드 역할 분리(통신/제어/센서)로 각 루프의 실시간성을 독립적으로 지킬 수 있었다.</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    전체 코드: ESP32 게이트웨이 · STM32 펌웨어 · RPi4 주행/비전 — <a href="https://github.com/bongs-bongs/platooning" target="_blank">github.com/bongs-bongs/platooning</a>
+  </div>
+
+</div>
+</body>
+</html>

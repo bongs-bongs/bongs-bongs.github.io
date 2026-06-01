@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIMO 자율주행 — 인식·제어 파이프라인 | 최두봉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#56B4E9;--sky-dark:#1A7AB5;--sky-mid:#A8D8F0;--sky-pale:#E8F5FC;--sky-bg:#F4FAFF;--text:#1A2E3B;--text2:#4A6572;--text3:#8AAAB8;--white:#FFFFFF;--border:#D6EEF8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans','Noto Sans KR',sans-serif;background:var(--sky-bg);color:var(--text);line-height:1.7;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 100px;}
+
+.topbar{position:sticky;top:0;z-index:10;background:rgba(244,250,255,0.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-tag{font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;}
+.back-link{font-size:13px;font-weight:600;color:var(--sky-dark);text-decoration:none;}
+
+.dd-hero{padding:54px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+.dd-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.12em;color:var(--sky);text-transform:uppercase;margin-bottom:14px;}
+.dd-title{font-family:'Noto Sans KR';font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:14px;}
+.dd-sub{font-size:1.05rem;color:var(--text2);max-width:62ch;}
+.dd-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+.chip{display:inline-flex;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);}
+.chip-role{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark);}
+
+.role-banner{background:linear-gradient(135deg,var(--sky-pale),var(--white));border:1px solid var(--border);border-left:4px solid var(--sky);border-radius:12px;padding:18px 22px;margin-bottom:44px;}
+.role-banner b{color:var(--sky-dark);}
+
+section{margin-bottom:52px;}
+.sec-num{font-size:12px;font-weight:700;color:var(--sky);letter-spacing:0.1em;}
+h2.sec-title{font-family:'Noto Sans KR';font-size:1.5rem;font-weight:700;margin:6px 0 8px;}
+p{margin-bottom:14px;color:var(--text2);}
+p strong,li strong{color:var(--text);font-weight:600;}
+ul{margin:0 0 16px 20px;color:var(--text2);}
+li{margin-bottom:7px;}
+
+.ps{display:grid;gap:14px;margin:18px 0;}
+.ps-box{border-radius:12px;padding:16px 18px;border:1px solid;}
+.ps-problem{background:#FFF6F4;border-color:#F6D5CC;}
+.ps-solution{background:#F4FFF7;border-color:#BDEBC7;}
+.ps-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:block;}
+.ps-problem .ps-label{color:#C0492B;}
+.ps-solution .ps-label{color:#1A7A2A;}
+.ps-box p{margin:0;color:var(--text);}
+
+.code{background:#0E2330;border-radius:12px;margin:16px 0 22px;overflow:hidden;border:1px solid #1c3a4d;box-shadow:0 8px 24px rgba(14,35,48,0.18);}
+.code-bar{display:flex;align-items:center;gap:8px;padding:9px 16px;background:#0a1a24;border-bottom:1px solid #1c3a4d;}
+.code-dot{width:11px;height:11px;border-radius:50%;}
+.code-file{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#7FB3CE;}
+.code pre{margin:0;padding:16px 18px;overflow-x:auto;}
+.code code{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;color:#D6E9F3;white-space:pre;}
+.cm{color:#5d7e8f;font-style:italic;}
+.kw{color:#7FD3F5;}
+.st{color:#9BE0A8;}
+.fn{color:#FFD580;}
+.nu{color:#F8A67A;}
+
+.arch{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;margin:18px 0 24px;overflow-x:auto;}
+.arch pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.65;color:var(--text2);white-space:pre;}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:13.5px;}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);}
+th{background:var(--sky-pale);color:var(--sky-dark);font-weight:700;font-size:12px;}
+td code{font-family:'JetBrains Mono',monospace;background:var(--sky-pale);padding:2px 6px;border-radius:5px;color:var(--sky-dark);font-size:12px;}
+
+.takeaways{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+.takeaways h2.sec-title{margin-top:0;}
+.foot{margin-top:50px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text3);text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-tag">Project 02 · Deep Dive</span>
+    <a class="back-link" href="../index_test.html#projects" target="_parent">↗ 새 탭으로 열기</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="dd-hero">
+    <p class="dd-eyebrow">ROS1 · Python · OpenCV · LiDAR · YOLO</p>
+    <h1 class="dd-title">LIMO 자율주행<br>— 인식·제어 파이프라인</h1>
+    <p class="dd-sub">WeGo LIMO Pro 플랫폼 위에서 <strong>차선 인식 → 장애물 감지 → 통합 주행 제어</strong>까지 전 파이프라인을 ROS 노드로 설계했다. 각 인식 결과가 토픽으로 분리되고 중앙 컨트롤러가 우선순위에 따라 통합 판단하는 구조가 핵심이다.</p>
+    <div class="dd-meta">
+      <span class="chip chip-role">My Part · 인식·제어 파이프라인</span>
+      <span class="chip">ROS1 (Noetic)</span>
+      <span class="chip">Python</span>
+      <span class="chip">OpenCV · HLS</span>
+      <span class="chip">LiDAR (LaserScan)</span>
+      <span class="chip">YOLO</span>
+    </div>
+  </div>
+
+  <div class="role-banner">
+    <p style="margin:0;">전체 파이프라인을 <b>차선 인식 노드 / LiDAR 긴급정지 노드 / 통합 제어 노드</b> 3개로 분리 설계하고 구현했다. 각 노드는 ROS 토픽으로만 통신하며 독립적으로 실행·재시작 가능하다.</p>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">전체 구조 — ROS 토픽 파이프라인</h2>
+    <p>센서 데이터에서 주행 명령까지 <strong>단방향 토픽 파이프라인</strong>으로 설계했다. 각 노드가 독립적으로 동작하고, 제어 노드는 모든 인식 결과를 구독해서 우선순위에 따라 최종 <code>cmd_vel</code>을 결정한다.</p>
+    <div class="arch"><pre>  [카메라] ──▶ lane_detect   ──▶ /limo/lane_x        (차선 무게중심 x)
+                crosswalk_detect ▶ /limo/crosswalk_y   (횡단보도까지 거리 y)
+  [LiDAR]  ──▶ e_stop        ──▶ /limo/lidar_warning  (Safe / Warning)
+                               ──▶ /limo/obstacle_angle (장애물 방향)
+  [YOLO]   ──────────────────▶ /limo/yolo_object     (신호등·표지판 클래스)
+                                         │
+                                         ▼
+                                    control.py
+                                    /cmd_vel (Twist) → LIMO 주행</pre>
+    </div>
+    <p>토픽 기반 분리 덕분에 <strong>차선 인식 파라미터만 바꾸거나 LiDAR 노드만 재시작</strong>할 때 다른 노드에 영향이 없다. Dynamic Reconfigure로 런타임 튜닝도 지원한다.</p>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">차선 인식 — HLS 색 공간 + 모멘트</h2>
+    <p>YOLO가 HLS 색 공간을 기준으로 동작하기 때문에, 차선 인식도 <strong>HLS로 통일해 노란·흰색 차선을 동시에 검출</strong>했다. 검출된 영역의 무게중심(Moment) x좌표를 기준점과 비교해 조향 오차를 계산했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">lane_detect.py</span></div>
+<pre><code><span class="kw">def</span> <span class="fn">colorDetect</span>(self, _img):
+    hls = cv2.cvtColor(_img, cv2.COLOR_BGR2HLS)  <span class="cm"># 조명 변화에 강한 HLS 변환</span>
+    mask_yellow = cv2.inRange(hls, self.YELLOW_LANE_LOW_TH, self.YELLOW_LANE_HIGH_TH)
+    mask_white  = cv2.inRange(hls, self.WHITE_LANE_LOW_TH,  self.WHITE_LANE_HIGH_TH)
+    <span class="kw">return</span> cv2.bitwise_or(mask_yellow, mask_white)  <span class="cm"># 두 마스크 합산</span>
+
+<span class="kw">def</span> <span class="fn">calcLaneDistance</span>(self, _img):
+    <span class="kw">try</span>:
+        M = cv2.moments(_img)
+        self.x = <span class="kw">int</span>(M[<span class="st">'m10'</span>] / M[<span class="st">'m00'</span>])  <span class="cm"># 무게중심 x = 차선 중앙</span>
+    <span class="kw">except</span>:
+        self.x = -<span class="nu">1</span>   <span class="cm"># 차선 미검출 → control에서 직진 유지</span>
+    <span class="kw">return</span> self.x</code></pre>
+    </div>
+    <p>ROI는 이미지 하단 30px만 잘라 연산량을 줄이고, 파라미터(임계값·기준점)는 Dynamic Reconfigure로 주행 중에 바로 조절할 수 있게 했다.</p>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">LiDAR 긴급정지 — 방향까지 판단</h2>
+    <p>단순히 "장애물 있음/없음"만 판정하면 회피 방향을 모른다. <strong>좌측(음수 각도)과 우측(양수 각도)을 분리 카운팅해서 어느 쪽에 장애물이 더 많은지 방향까지 퍼블리시</strong>했고, 제어 노드가 이 방향을 보고 반대쪽으로 회피한다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">e_stop.py</span></div>
+<pre><code><span class="kw">for</span> i, angle <span class="kw">in</span> <span class="fn">enumerate</span>(angle_deg):
+    distance = _data.ranges[i]
+    <span class="kw">if</span> <span class="nu">0.0</span> < distance <= <span class="nu">0.5</span>:       <span class="cm"># 50cm 이내 점만 카운트</span>
+        <span class="kw">if</span> angle > <span class="nu">0</span>:   cnt_positive += <span class="nu">1</span>   <span class="cm"># 우측</span>
+        <span class="kw">elif</span> angle < <span class="nu">0</span>: cnt_negative += <span class="nu">1</span>   <span class="cm"># 좌측</span>
+
+<span class="cm"># 더 많은 쪽이 장애물 방향 (음수 = 좌측)</span>
+obstacle_angle = cnt_positive <span class="kw">if</span> cnt_positive >= cnt_negative <span class="kw">else</span> -cnt_negative
+
+<span class="kw">if</span> cnt_positive + cnt_negative >= self.E_STOP_COUNT:  <span class="cm"># 노이즈 필터</span>
+    self.warn_pub.publish(<span class="st">"Warning"</span>)
+    self.angle_pub.publish(obstacle_angle)</code></pre>
+    </div>
+    <p>제어 노드는 이 방향 정보를 받아 <strong>장애물이 우측이면 좌회전, 좌측이면 우회전</strong>으로 회피한다. 단순 정지 대신 능동적 회피가 가능해진다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">control.py — drive_callback</span></div>
+<pre><code><span class="kw">if</span> self.e_stop == <span class="st">"Warning"</span>:
+    <span class="kw">if</span> self.obstacle_angle > <span class="nu">0</span>:   <span class="cm"># 장애물이 우측 → 좌로 회피</span>
+        drive_data.angular.z = <span class="nu">1.0</span>
+    <span class="kw">else</span>:                          <span class="cm"># 장애물이 좌측 → 우로 회피</span>
+        drive_data.angular.z = -<span class="nu">1.0</span>
+    drive_data.linear.x = <span class="nu">0.2</span>   <span class="cm"># 저속으로 계속 이동하며 회피</span></code></pre>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">통합 제어 — 우선순위 기반 분기</h2>
+    <p>여러 인식 결과가 동시에 들어올 때 어떤 걸 우선할지가 핵심이다. <strong>위험도 순서로 우선순위를 명시적으로 정의</strong>해서, 신호등과 장애물이 동시에 감지돼도 안전하게 처리된다.</p>
+    <div class="arch"><pre>  우선순위 (높음 → 낮음)
+  ① LiDAR Warning     → 저속 회피 주행
+  ② 신호등 Red/Yellow → 완전 정지
+  ③ 서행 표지판       → 반속 주행
+  ④ 보행자 표지판     → 5초 정지 (쿨다운 20초)
+  ⑤ 차선 이탈 보정    → 비례 조향 (distance_to_ref × LATERAL_GAIN)
+  ⑥ 정상              → BASE_SPEED 직진</pre>
+    </div>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">control.py — drive_callback</span></div>
+<pre><code><span class="cm"># 기본 조향: 차선 무게중심 오차 × Gain (비례 제어)</span>
+drive_data.angular.z = self.distance_to_ref * self.LATERAL_GAIN
+
+<span class="cm"># 우선순위 순서로 override</span>
+<span class="kw">if</span> self.e_stop == <span class="st">"Warning"</span>:          <span class="cm"># ① 가장 우선</span>
+    ...
+<span class="kw">elif</span> self.yolo_object <span class="kw">in</span> (<span class="st">"yellow"</span>, <span class="st">"red"</span>):  <span class="cm"># ②</span>
+    drive_data.linear.x = <span class="nu">0.0</span>
+<span class="kw">elif</span> self.yolo_object == <span class="st">"slow"</span>:         <span class="cm"># ③</span>
+    drive_data.linear.x = self.BASE_SPEED / <span class="nu">2</span>
+<span class="kw">elif</span> self.yolo_object == <span class="st">"pedestrian"</span> \
+    <span class="kw">and</span> self.is_pedestrian_stop_available \
+    <span class="kw">and</span> self.bbox_size[<span class="nu">0</span>] > self.PEDE_STOP_WIDTH:  <span class="cm"># ④ bbox 크기로 근접 판정</span>
+    drive_data.linear.x = <span class="nu">0.0</span>
+    self.is_pedestrian_stop_available = <span class="kw">False</span>     <span class="cm"># 20초 쿨다운</span>
+<span class="kw">else</span>:                                             <span class="cm"># ⑤⑥ 정상 주행</span>
+    drive_data.linear.x = self.BASE_SPEED</code></pre>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">Ackermann / Differential 모드 전환</h2>
+    <p>LIMO는 Ackermann(조향) 모드와 Differential Drive 모드 두 가지를 지원한다. <strong>같은 angular.z 값이라도 모드에 따라 실제 회전량이 다르기 때문에</strong>, 모드를 감지해서 출력 변환을 다르게 했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">control.py</span></div>
+<pre><code><span class="kw">if</span> self.limo_mode == <span class="st">"diff"</span>:
+    self.drive_pub.publish(drive_data)   <span class="cm"># Differential: angular.z 그대로</span>
+<span class="kw">elif</span> self.limo_mode == <span class="st">"ackermann"</span>:
+    <span class="kw">if</span> drive_data.linear.x == <span class="nu">0</span>:
+        drive_data.angular.z = <span class="nu">0</span>        <span class="cm"># 정지 시 조향각 리셋 (타이어 중립)</span>
+    <span class="kw">else</span>:
+        <span class="cm"># Ackermann 조향각 변환: tan(z/2) × v / wheelbase</span>
+        drive_data.angular.z = \
+            math.tan(drive_data.angular.z / <span class="nu">2</span>) * drive_data.linear.x / self.LIMO_WHEELBASE
+    self.drive_pub.publish(drive_data)</code></pre>
+    </div>
+    <p>Ackermann 모드에서 정지할 때 angular.z를 0으로 리셋하지 않으면 타이어가 꺾인 채로 정지해 재출발 시 급격하게 꺾이는 문제가 있었다. 이를 명시적으로 처리했다.</p>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <span class="sec-num">06</span>
+    <h2 class="sec-title">YOLO 인식 결과 시간 보정</h2>
+    <p>YOLO 인식이 잠깐 끊기면 마지막 클래스가 계속 유지돼 불필요하게 정지 상태가 지속된다. <strong>마지막 인식 시각을 기록하고 3초가 지나면 "green"으로 초기화</strong>해서, 인식 끊김으로 인한 영구 정지를 방지했다.</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span><span class="code-file">control.py — drive_callback</span></div>
+<pre><code><span class="cm"># YOLO 인식이 3초 이상 끊기면 green으로 초기화 (인식 노이즈 방지)</span>
+<span class="kw">if</span> self.yolo_object != <span class="st">"green"</span> \
+        <span class="kw">and</span> self.calcTimeFromDetection(self.yolo_object_last_time) > <span class="nu">3.0</span>:
+    self.yolo_object = <span class="st">"green"</span>
+    self.bbox_size = [<span class="nu">0</span>, <span class="nu">0</span>]</code></pre>
+    </div>
+    <p>보행자 표지판도 마찬가지로 bbox 크기(픽셀 너비)로 <strong>근접 여부를 판단</strong>해서, 멀리서 보행자 표지판을 인식했을 때 불필요하게 정지하지 않게 했다.</p>
+  </section>
+
+  <div class="takeaways">
+    <span class="sec-num">RESULT</span>
+    <h2 class="sec-title">결과 · 배운 점</h2>
+    <ul>
+      <li>차선 추종·신호등·횡단보도·LiDAR 장애물 회피를 통합한 <strong>자율주행 경진대회 대상 수상</strong>.</li>
+      <li>ROS 토픽으로 노드를 분리하면 <strong>디버깅 시 특정 노드만 재시작</strong>할 수 있어 개발 속도가 빨라짐을 직접 체감.</li>
+      <li>YOLO와 색 공간을 HLS로 통일 — <strong>시스템 전체에서 색 공간을 맞추는 것</strong>이 파이프라인 일관성에 중요함을 체감.</li>
+      <li>단순 정지가 아닌 <strong>방향까지 판단한 회피</strong> — "장애물이 어디에 있는가"를 데이터에서 뽑아내는 것이 제어 품질을 바꿈.</li>
+      <li>Ackermann 모드에서 정지 시 조향각 리셋 버그 — <strong>물리 시스템 특성을 이해하고 코드에 반영</strong>하는 것이 중요함.</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    ROS1 (Noetic) · Python · OpenCV · LaserScan · YOLO — WeGo LIMO Pro
+  </div>
+
+</div>
+</body>
+</html>
