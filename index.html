@@ -143,7 +143,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 .proj-period{font-size:12px;color:var(--text3);}
 .proj-section{display:flex;flex-direction:column;gap:6px;}
 .proj-section-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sky);margin-bottom:4px;}
-.proj-text{font-size:14.5px;color:var(--text2);line-height:1.8;}
+.proj-text{font-size:14.5px;color:var(--text2);line-height:1.8;}.kw{font-weight:700;color:var(--sky-dark);}.kw-g{font-weight:700;color:var(--gold);}
 .proj-result{display:flex;flex-direction:column;gap:6px;}
 .proj-result-badge{display:inline-flex;align-items:center;gap:6px;background:#FFF3CD;border:1px solid #F5D98A;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:#A07800;width:fit-content;}
 .proj-result-sub{background:var(--sky-pale);border-color:var(--sky-mid);color:var(--sky-dark);}
@@ -358,12 +358,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">왜 했나</p>
-          <p class="proj-text">300kW 급속충전기는 30kW 모듈 10개로 구성되는데, 저전압↔고전압 전환 시 모든 모듈이 동시에 릴레이를 변환하면 짧은 충전 공백이 생긴다. 이 공백은 충전 소자에 전기적 스트레스를 주고 안정성을 떨어뜨린다. 이 문제를 없애고 싶었다.</p>
+          <p class="proj-text"><span class="kw">300kW 급속충전기</span>는 <span class="kw">30kW 모듈 10개</span>로 구성되는데, 저전압↔고전압 전환 시 모든 모듈이 동시에 릴레이를 변환하면 짧은 <span class="kw-g">충전 공백</span>이 생긴다. 이 공백은 충전 소자에 <span class="kw-g">전기적 스트레스</span>를 주고 안정성을 떨어뜨린다. 이 문제를 없애고 싶었다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">어떻게 구상했나</p>
-          <p class="proj-text">모든 모듈을 동시에 전환하는 대신, 하나씩 순차적으로 전환하는 제어 로직을 설계했다. 전환 중에도 나머지 모듈이 충전을 이어받아 공백 없이 연속 충전이 가능하고, 급격한 출력 변동도 없애 소자 수명까지 챙겼다.</p>
+          <p class="proj-text">모든 모듈을 동시에 전환하는 대신, 하나씩 <span class="kw">순차적으로 전환</span>하는 제어 로직을 설계했다. 전환 중에도 나머지 모듈이 충전을 이어받아 <span class="kw-g">공백 없이 연속 충전</span>이 가능하고, 급격한 출력 변동도 없애 <span class="kw">소자 수명</span>까지 챙겼다.</p>
         </div>
 
         <div class="proj-result">
@@ -399,17 +399,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 프로젝트인가</p>
-          <p class="proj-text">카메라와 LiDAR를 이용해 지그재그, 급곡선, 장애물 회피, 라바콘 슬라롬, 색깔 차선 인식, 좁은 통로 통과까지 6가지 미션을 수행하는 자율주행 알고리즘 경진대회. WeGo LIMO 플랫폼(Jetson Nano)에서 단독으로 전체 주행 로직을 구현했다.</p>
+          <p class="proj-text"><span class="kw">카메라와 LiDAR</span>를 이용해 지그재그, 급곡선, 장애물 회피, 라바콘 슬라롬, 색깔 차선 인식, 좁은 통로 통과까지 <span class="kw-g">6가지 미션</span>을 수행하는 자율주행 알고리즘 경진대회. WeGo LIMO 플랫폼(<span class="kw">Jetson Nano</span>)에서 <span class="kw-g">단독으로 전체 주행 로직</span>을 구현했다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 방식들을 고려했나</p>
-          <p class="proj-text">차선 인식은 딥러닝 기반 세그멘테이션도 고려했지만 Jetson Nano 연산 부하와 실시간성을 고려해 HLS 색공간 기반 방식을 선택했다. 장애물은 카메라로 감지하는 방법도 있었지만 라바콘처럼 형태가 다양한 경우에도 안정적으로 대응하려면 거리 측정이 직접 되는 LiDAR가 더 적합하다고 판단했다.</p>
+          <p class="proj-text">차선 인식은 딥러닝 기반 세그멘테이션도 고려했지만 Jetson Nano 연산 부하와 실시간성을 고려해 <span class="kw">HLS 색공간 기반</span> 방식을 선택했다. 장애물은 카메라로 감지하는 방법도 있었지만 라바콘처럼 형태가 다양한 경우에도 안정적으로 대응하려면 거리 측정이 직접 되는 <span class="kw">LiDAR</span>가 더 적합하다고 판단했다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">어떻게 구상했나</p>
-          <p class="proj-text">차선은 HLS 색공간에서 흰색과 노란색을 동시에 감지하고, 검출된 픽셀들의 무게중심 x좌표를 기준점과 비교해 조향값을 계산했다. 조명 변화에 강하게 threshold를 넉넉하게 잡았다. 장애물과 라바콘은 동일하게 LiDAR raw scan으로 0.5m 이내 점을 카운팅하고 어느 방향에 더 몰려있는지 각도까지 계산해 좌/우 회피 방향을 결정했다. 이 둘을 우선순위 기반으로 통합했다 — LiDAR 경고 → 차선 추종 순서로.</p>
+          <p class="proj-text">차선은 <span class="kw">HLS 색공간</span>에서 흰색과 노란색을 동시에 감지하고, 검출된 픽셀들의 무게중심 x좌표를 기준점과 비교해 조향값을 계산했다. 조명 변화에 강하게 threshold를 넉넉하게 잡았다. 장애물과 라바콘은 동일하게 <span class="kw">LiDAR raw scan</span>으로 <span class="kw-g">0.5m 이내</span> 점을 카운팅하고 어느 방향에 더 몰려있는지 각도까지 계산해 좌/우 회피 방향을 결정했다. 이 둘을 우선순위 기반으로 통합했다 — <span class="kw-g">LiDAR 경고 → 차선 추종</span> 순서로.</p>
         </div>
 
         <div class="proj-result">
@@ -448,22 +448,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 프로젝트인가</p>
-          <p class="proj-text">선두 차량은 사람이 수동으로 조작하고, 뒤따르는 차량들은 앞차의 속도와 방향을 실시간으로 받아 자동으로 추종하는 3대 군집주행 시스템. 선두가 움직이면 나머지가 알아서 따라온다.</p>
+          <p class="proj-text">선두 차량은 사람이 수동으로 조작하고, 뒤따르는 차량들은 앞차의 속도와 방향을 <span class="kw">실시간으로 받아 자동으로 추종</span>하는 <span class="kw-g">3대 군집주행</span> 시스템. 선두가 움직이면 나머지가 알아서 따라온다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">왜 했나</p>
-          <p class="proj-text">단순히 코드만 짜는 게 아니라, 하드웨어 레이어(CAN)부터 네트워크 레이어(MQTT)까지 end-to-end로 직접 설계해보고 싶었다. 실제 차량 제어에서 통신 지연이 얼마나 치명적인지 몸으로 느끼고 싶었던 것도 있다.</p>
+          <p class="proj-text">단순히 코드만 짜는 게 아니라, 하드웨어 레이어(<span class="kw">CAN</span>)부터 네트워크 레이어(<span class="kw">MQTT</span>)까지 <span class="kw-g">end-to-end</span>로 직접 설계해보고 싶었다. 실제 차량 제어에서 <span class="kw-g">통신 지연</span>이 얼마나 치명적인지 몸으로 느끼고 싶었던 것도 있다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">어떻게 구상했나</p>
-          <p class="proj-text">차량 내부는 실시간성이 중요하니 CAN(500kbps)으로, 차량 간은 WiFi MQTT로 이중 통신 구조를 설계했다. ESP32가 CAN↔MQTT 게이트웨이 역할을 한다. 앞차 인식은 RPi4에서 TFLite 온디바이스 추론으로 통신 지연 없이 로컬에서 조향까지 완결되도록 했다. 사람이 앞에 있을 때 돌진하는 사고를 막으려고 클래스별 threshold도 다르게 잡았다 — car는 0.9, saram은 0.5.</p>
+          <p class="proj-text">차량 내부는 실시간성이 중요하니 <span class="kw">CAN(500kbps)</span>으로, 차량 간은 <span class="kw">WiFi MQTT</span>로 이중 통신 구조를 설계했다. <span class="kw">ESP32</span>가 CAN↔MQTT 게이트웨이 역할을 한다. 앞차 인식은 RPi4에서 <span class="kw">TFLite 온디바이스 추론</span>으로 통신 지연 없이 로컬에서 조향까지 완결되도록 했다. 사람이 앞에 있을 때 돌진하는 사고를 막으려고 클래스별 threshold도 다르게 잡았다 — <span class="kw-g">car는 0.9, saram은 0.5</span>.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">배운 것</p>
-          <p class="proj-text">1회 영상 촬영 성공했지만 안정적 재현은 못 했다. WiFi MQTT 지연 + STM32 blocking 구조가 복합적으로 작용한 것으로 사후 분석했다. 분산 시스템의 불안정성은 단일 원인이 아니라 여러 레이어가 동시에 터지는 경우가 많다는 걸 직접 겪었다.</p>
+          <p class="proj-text">1회 영상 촬영 성공했지만 안정적 재현은 못 했다. <span class="kw">WiFi MQTT 지연</span> + <span class="kw">STM32 blocking 구조</span>가 복합적으로 작용한 것으로 사후 분석했다. 분산 시스템의 불안정성은 <span class="kw-g">단일 원인이 아니라 여러 레이어가 동시에 터지는</span> 경우가 많다는 걸 직접 겪었다.</p>
         </div>
 
         <div class="proj-result">
@@ -505,7 +505,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 프로젝트인가</p>
-          <p class="proj-text">독거노인이 혼자 있을 때 낙상이나 위험 상황이 생겨도 아무도 모르는 문제를 해결하려 했다. 로봇이 집 안을 순찰하다 사람을 발견하면 따라다니고, 낙상이 감지되면 보호자에게 자동 신고한다. STT/TTS 기반 대화 기능도 탑재해 노인과 직접 소통도 가능하다.</p>
+          <p class="proj-text">독거노인이 혼자 있을 때 낙상이나 위험 상황이 생겨도 아무도 모르는 문제를 해결하려 했다. 로봇이 집 안을 <span class="kw">순찰</span>하다 사람을 발견하면 따라다니고, <span class="kw-g">낙상이 감지되면 보호자에게 자동 신고</span>한다. <span class="kw">STT/TTS</span> 기반 대화 기능도 탑재해 노인과 직접 소통도 가능하다.</p>
         </div>
 
         <div class="proj-section">
@@ -515,7 +515,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">어떻게 구상했나</p>
-          <p class="proj-text">두 가지 모드를 설계했다. 사람이 보이면 YOLO bbox로 직접 cmd_vel을 계산해 따라다니는 추적 모드, 사람이 안 보이면 Nav2 웨이포인트로 집 안을 순찰하는 순찰 모드. 추적은 Nav2를 쓰지 않았는데 사람이 움직일 때마다 goal을 재설정해야 해 반응이 느려지기 때문이었다. 낙상은 YOLO 2-class 모델(lying/other)로 감지하고, 지속되면 TTS로 확인 후 무응답 시 보호자에게 문자+현장 사진을 전송한다.</p>
+          <p class="proj-text">두 가지 모드를 설계했다. 사람이 보이면 <span class="kw">YOLO bbox</span>로 직접 cmd_vel을 계산해 따라다니는 추적 모드, 사람이 안 보이면 <span class="kw">Nav2 웨이포인트</span>로 집 안을 순찰하는 순찰 모드. 추적은 Nav2를 쓰지 않았는데 사람이 움직일 때마다 goal을 재설정해야 해 반응이 느려지기 때문이었다. 낙상은 <span class="kw">YOLO 2-class 모델(lying/other)</span>로 감지하고, 지속되면 TTS로 확인 후 무응답 시 <span class="kw-g">보호자에게 문자+현장 사진</span>을 전송한다.</p>
         </div>
 
         <div class="proj-result">
@@ -558,17 +558,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 게임인가</p>
-          <p class="proj-text">마네킹 1명이 퇴마사 5명을 잡는 비대칭 호러 게임. 데드바이데이라이트 구조에 롤 칼바람나락식 랜덤 증강 요소를 더해, 매판 다른 조합으로 전략이 바뀐다.</p>
+          <p class="proj-text"><span class="kw-g">마네킹 1명</span>이 <span class="kw-g">퇴마사 5명</span>을 잡는 <span class="kw">비대칭 호러</span> 게임. 데드바이데이라이트 구조에 롤 칼바람나락식 <span class="kw">랜덤 증강</span> 요소를 더해, <span class="kw-g">매판 다른 조합</span>으로 전략이 바뀐다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">왜 만들었나</p>
-          <p class="proj-text">숏츠·릴스처럼 콘텐츠 소비 단위가 짧아지는 트렌드에 주목했다. 증강·칼바람 같은 유행 요소를 게임에 접목해, 짧은 플레이타임 안에 매판 다른 플레이 경험을 주고 싶었다. 소규모 멀티플레이어라 전용 서버 없이 Photon Fusion 2를 선택했다.</p>
+          <p class="proj-text">숏츠·릴스처럼 콘텐츠 소비 단위가 짧아지는 트렌드에 주목했다. 증강·칼바람 같은 유행 요소를 게임에 접목해, <span class="kw-g">짧은 플레이타임 안에 매판 다른 플레이 경험</span>을 주고 싶었다. 소규모 멀티플레이어라 전용 서버 없이 <span class="kw">Photon Fusion 2</span>를 선택했다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 걸 구현했나</p>
-          <p class="proj-text">퇴마사 클라이언트 전체를 담당했다. 카메라 벽 뚫림 방지(SphereCast), 애니메이션-타이머 불일치 해결(Animation Event 기반 이동잠금), 입력 권한 충돌 차단(HasInputAuthority 가드), Normal → Injured → Downed → Mannequin → Dead 생존 상태머신, 8종 랜덤 캐릭터 모델 네트워크 동기화까지 구현했다.</p>
+          <p class="proj-text"><span class="kw-g">퇴마사 클라이언트 전체</span>를 담당했다. 카메라 벽 뚫림 방지(<span class="kw">SphereCast</span>), 애니메이션-타이머 불일치 해결(<span class="kw">Animation Event</span> 기반 이동잠금), 입력 권한 충돌 차단(<span class="kw">HasInputAuthority</span> 가드), <span class="kw-g">Normal → Injured → Downed → Mannequin → Dead</span> 생존 상태머신, <span class="kw">8종 랜덤 캐릭터</span> 모델 네트워크 동기화까지 구현했다.</p>
         </div>
 
         <div class="proj-result">
@@ -607,12 +607,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 
         <div class="proj-section">
           <p class="proj-section-label">어떤 게임인가</p>
-          <p class="proj-text">인형뽑기 매장을 운영하는 1인칭 경영 시뮬레이터. 박스를 발주해 재고를 채우고, 인형을 진열하고, 손님을 받아 하루를 굴리며 매장을 키운다. Win64 / Steam 출시 싱글플레이 게임이고 Enhanced Input · BehaviorTree · NavMesh · DataTable 위에서 동작한다.</p>
+          <p class="proj-text">인형뽑기 매장을 운영하는 <span class="kw">1인칭 경영 시뮬레이터</span>. 박스를 발주해 재고를 채우고, 인형을 진열하고, 손님을 받아 하루를 굴리며 매장을 키운다. <span class="kw-g">Win64 / Steam 출시</span> 싱글플레이 게임이고 <span class="kw">Enhanced Input · BehaviorTree · NavMesh · DataTable</span> 위에서 동작한다.</p>
         </div>
 
         <div class="proj-section">
           <p class="proj-section-label">무엇을 맡았나</p>
-          <p class="proj-text">팀장으로서 전체 프로젝트의 진행 상황을 파악하며 팀원들에게 임무를 분배했다. 개발에서는 손님 NPC AI와 애니메이션, 그리고 튜토리얼을 담당했다.</p>
+          <p class="proj-text"><span class="kw-g">팀장</span>으로서 전체 프로젝트의 진행 상황을 파악하며 팀원들에게 임무를 분배했다. 개발에서는 <span class="kw">손님 NPC AI</span>와 애니메이션, 그리고 <span class="kw">튜토리얼</span>을 담당했다.</p>
         </div>
 
         <div class="proj-section">
