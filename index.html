@@ -148,6 +148,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
 .proj-result-badge{display:inline-flex;align-items:center;gap:6px;background:#FFF3CD;border:1px solid #F5D98A;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:#A07800;width:fit-content;}
 .proj-result-sub{background:var(--sky-pale);border-color:var(--sky-mid);color:var(--sky-dark);}
 .proj-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.proj-summary{background:var(--sky-bg);border:1px solid var(--border);border-radius:14px;padding:1rem 1.15rem;margin:0;}
+.ps-row{display:flex;align-items:baseline;gap:10px;font-size:13px;margin-bottom:8px;}
+.ps-key{display:inline-flex;align-items:center;gap:6px;color:var(--text3);font-weight:600;min-width:82px;flex-shrink:0;}
+.ps-key i{font-size:12px;color:var(--sky);position:relative;top:1px;}
+.ps-val{color:var(--text);font-weight:500;}
+.ps-tags{display:flex;flex-wrap:wrap;gap:6px;padding-top:11px;margin-top:3px;border-top:1px solid var(--border);}
 .ptag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:100px;background:white;border:1px solid var(--border);color:var(--text2);}
 .proj-card-right{display:flex;align-items:flex-start;justify-content:center;width:100%;}
 .proj-img-wrap{background:var(--sky-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;width:100%;}
@@ -395,7 +401,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <span class="proj-cat">자율주행 · ROS2 · OpenCV · LiDAR</span>
         </div>
         <h3 class="proj-title">LIMO 자율주행<br>경진대회</h3>
-        <p class="proj-period">2024. 08 · 인천대학교</p>
+        <div class="proj-summary">
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-users"></i> 참여인원</span><span class="ps-val">4인</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-user-gear"></i> 역할</span><span class="ps-val">팀장 · 주행 로직 단독 구현</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-calendar-days"></i> 기간</span><span class="ps-val">2024. 08 · 2주</span></div>
+          <div class="ps-tags">
+          <span class="ptag">Linux</span>
+          <span class="ptag">ROS2 Humble</span>
+          <span class="ptag">OpenCV HLS</span>
+          <span class="ptag">LiDAR</span>
+          <span class="ptag">Jetson Nano</span>
+          <span class="ptag">cmd_vel</span>
+        </div>
+        </div>
 
         <div class="proj-section">
           <p class="proj-section-label">프로젝트 개요</p>
@@ -418,14 +436,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <button onclick="openDetail('details/limo.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🚗 인식·제어 파이프라인 기술 상세 <i class="fa-solid fa-up-right-from-square" style="font-size:11px;margin-left:2px;"></i></button>
         </div>
 
-        <div class="proj-tags">
-          <span class="ptag">Linux</span>
-          <span class="ptag">ROS2 Humble</span>
-          <span class="ptag">OpenCV HLS</span>
-          <span class="ptag">LiDAR</span>
-          <span class="ptag">Jetson Nano</span>
-          <span class="ptag">cmd_vel</span>
-        </div>
       </div>
 
       <div class="proj-card-right">
@@ -444,7 +454,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <span class="proj-cat">임베디드 · CAN · MQTT · AI</span>
         </div>
         <h3 class="proj-title">군집주행 Platooning</h3>
-        <p class="proj-period">2025. 12 · SSAFY 임베디드 프로젝트</p>
+        <div class="proj-summary">
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-users"></i> 참여인원</span><span class="ps-val">3인</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-user-gear"></i> 역할</span><span class="ps-val">팀원 · CAN-MQTT 게이트웨이 단독 개발</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-calendar-days"></i> 기간</span><span class="ps-val">2025. 12 · 4주</span></div>
+          <div class="ps-tags">
+          <span class="ptag">C++</span>
+          <span class="ptag">ESP32</span>
+          <span class="ptag">STM32</span>
+          <span class="ptag">RPi4</span>
+          <span class="ptag">CAN Bus 500kbps</span>
+          <span class="ptag">MQTT</span>
+          <span class="ptag">TFLite fp16</span>
+          <span class="ptag">GStreamer</span>
+          <span class="ptag">SocketCAN</span>
+        </div>
+        </div>
 
         <div class="proj-section">
           <p class="proj-section-label">프로젝트 개요</p>
@@ -470,17 +495,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <button onclick="openDetail('details/platooning.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🔧 ESP32 통신 게이트웨이 기술 상세 <i class="fa-solid fa-up-right-from-square" style="font-size:11px;margin-left:2px;"></i></button>
         </div>
 
-        <div class="proj-tags">
-          <span class="ptag">C++</span>
-          <span class="ptag">ESP32</span>
-          <span class="ptag">STM32</span>
-          <span class="ptag">RPi4</span>
-          <span class="ptag">CAN Bus 500kbps</span>
-          <span class="ptag">MQTT</span>
-          <span class="ptag">TFLite fp16</span>
-          <span class="ptag">GStreamer</span>
-          <span class="ptag">SocketCAN</span>
-        </div>
       </div>
 
       <div class="proj-card-right">
@@ -501,7 +515,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <span class="proj-cat">자율주행 · ROS2 · YOLO · AI</span>
         </div>
         <h3 class="proj-title">No-ill (노일)<br>독거노인 케어 로봇</h3>
-        <p class="proj-period">2026. 01~02 · SSAFY 팀 프로젝트</p>
+        <div class="proj-summary">
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-users"></i> 참여인원</span><span class="ps-val">6인</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-user-gear"></i> 역할</span><span class="ps-val">팀원 · 자율주행 SW 아키텍처 주도</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-calendar-days"></i> 기간</span><span class="ps-val">2026. 01~02 · 6주</span></div>
+          <div class="ps-tags">
+          <span class="ptag">C++</span>
+          <span class="ptag">Linux</span>
+          <span class="ptag">Jetson Orin Nano</span>
+          <span class="ptag">ROS2 + Nav2</span>
+          <span class="ptag">YOLO</span>
+          <span class="ptag">SLAM</span>
+          <span class="ptag">STT/TTS</span>
+          <span class="ptag">LiDAR</span>
+        </div>
+        </div>
 
         <div class="proj-section">
           <p class="proj-section-label">프로젝트 개요</p>
@@ -524,16 +552,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <button onclick="openDetail('details/noill.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🤖 로봇 제어 시스템 기술 상세 <i class="fa-solid fa-up-right-from-square" style="font-size:11px;margin-left:2px;"></i></button>
         </div>
 
-        <div class="proj-tags">
-          <span class="ptag">C++</span>
-          <span class="ptag">Linux</span>
-          <span class="ptag">Jetson Orin Nano</span>
-          <span class="ptag">ROS2 + Nav2</span>
-          <span class="ptag">YOLO</span>
-          <span class="ptag">SLAM</span>
-          <span class="ptag">STT/TTS</span>
-          <span class="ptag">LiDAR</span>
-        </div>
       </div>
 
       <div class="proj-card-right">
@@ -554,7 +572,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <span class="proj-cat">게임 · Unity · Photon Fusion 2</span>
         </div>
         <h3 class="proj-title">프로젝트 마네퀸</h3>
-        <p class="proj-period">2026. 02~04 · SSAFY 팀 프로젝트</p>
+        <div class="proj-summary">
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-users"></i> 참여인원</span><span class="ps-val">6인</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-user-gear"></i> 역할</span><span class="ps-val">팀원 · 퇴마사 클라이언트 개발</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-calendar-days"></i> 기간</span><span class="ps-val">2026. 02~04 · 7주</span></div>
+          <div class="ps-tags">
+          <span class="ptag">Unity 2022</span>
+          <span class="ptag">Photon Fusion 2</span>
+          <span class="ptag">C#</span>
+          <span class="ptag">비대칭 멀티플레이어</span>
+          <span class="ptag">상태머신</span>
+          <span class="ptag">네트워크 동기화</span>
+        </div>
+        </div>
 
         <div class="proj-section">
           <p class="proj-section-label">게임 개요</p>
@@ -575,14 +605,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <button onclick="openDetail('details/mannequin-exorcist.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">👻 퇴마사 클라이언트 기술 상세 <i class="fa-solid fa-up-right-from-square" style="font-size:11px;margin-left:2px;"></i></button>
         </div>
 
-        <div class="proj-tags">
-          <span class="ptag">Unity 2022</span>
-          <span class="ptag">Photon Fusion 2</span>
-          <span class="ptag">C#</span>
-          <span class="ptag">비대칭 멀티플레이어</span>
-          <span class="ptag">상태머신</span>
-          <span class="ptag">네트워크 동기화</span>
-        </div>
       </div>
 
       <div class="proj-card-right">
@@ -603,7 +625,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <span class="proj-cat">게임 · Unreal Engine 5.5 · C++20</span>
         </div>
         <h3 class="proj-title">인형뽑기 가게 시뮬레이터<br>Claw Machine Simulator</h3>
-        <p class="proj-period">2026. 04~06 · SSAFY 팀 프로젝트</p>
+        <div class="proj-summary">
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-users"></i> 참여인원</span><span class="ps-val">7인</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-user-gear"></i> 역할</span><span class="ps-val">팀장 · 손님 NPC AI·튜토리얼</span></div>
+          <div class="ps-row"><span class="ps-key"><i class="fa-solid fa-calendar-days"></i> 기간</span><span class="ps-val">2026. 04~06 · 8주</span></div>
+          <div class="ps-tags">
+          <span class="ptag">Unreal Engine 5.5</span>
+          <span class="ptag">C++20</span>
+          <span class="ptag">팀 리딩</span>
+          <span class="ptag">NPC AI</span>
+          <span class="ptag">BehaviorTree</span>
+          <span class="ptag">NavMesh</span>
+          <span class="ptag">애니메이션</span>
+          <span class="ptag">Steam</span>
+        </div>
+        </div>
 
         <div class="proj-section">
           <p class="proj-section-label">게임 개요</p>
@@ -626,16 +662,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(
           <button onclick="openDetail('details/claw-machine-npc.html')" class="proj-result-badge proj-result-sub" style="cursor:pointer;border:none;font-family:inherit;">🤖 NPC AI 시스템 기술 상세 <i class="fa-solid fa-up-right-from-square" style="font-size:11px;margin-left:2px;"></i></button>
         </div>
 
-        <div class="proj-tags">
-          <span class="ptag">Unreal Engine 5.5</span>
-          <span class="ptag">C++20</span>
-          <span class="ptag">팀 리딩</span>
-          <span class="ptag">NPC AI</span>
-          <span class="ptag">BehaviorTree</span>
-          <span class="ptag">NavMesh</span>
-          <span class="ptag">애니메이션</span>
-          <span class="ptag">Steam</span>
-        </div>
       </div>
 
       <div class="proj-card-right">
